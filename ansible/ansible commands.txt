@@ -3,3 +3,8 @@ ansible --version
 
 ansible-playbook resourcegroup.yaml --syntax-check
 ansible-playbook resourcegroup.yaml
+
+## notes
+git clone https://github.com/ansible/ansbile.git --recursive
+git --version
+
