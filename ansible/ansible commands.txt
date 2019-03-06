@@ -1,10 +1,23 @@
-# basic command(s)
-ansible --version
+# install ansible (2.4.2.0)
+sudo yum install ansible
 
-ansible-playbook resourcegroup.yaml --syntax-check
-ansible-playbook resourcegroup.yaml
+# install git (1.8.3.1)
+sudo yum install git
+git --install
+
+# configure git
+git config --global user.name "Carlos Lopez"
+git config --global user.email "c_lopez19@hotmail.com"
+git config --list
+
+# basic command(s)
+ansible-playbook [playbook.yml] --syntax-check
+ansible-playbook [playbook.yml]
 
 ## notes
 git clone https://github.com/ansible/ansbile.git --recursive
-git --version
 
+## check versions
+git --version
+python --version
+ansible --version

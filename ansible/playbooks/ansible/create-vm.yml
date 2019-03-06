@@ -1,0 +1,27 @@
+---
+- name: Create a VM
+  hosts: localhost
+  connection: local
+  vars:
+    user: << username >>
+    pub_key: ssh-rsa << public key >>
+    name_resource_group: test-rg
+    name_network_interface_card: test-nic
+    name_virtual_machine: test-vm
+  tasks:
+  - name: create vm (CentOS)
+    azure_rm_virtualmachine:
+      resource_group: "{{ name_resource_group }}"
+      name: "{{ name_virtual_machine }}"
+      vm_size: Standard_DS1_v2
+      admin_username: "{{ user }}"
+      ssh_password_enabled: false
+      ssh_public_keys:
+        - path: "/home/{{ user }}/.ssh/authorized_keys"
+          key_data: "{{ pub_key }}"
+      network_interfaces: "{{ name_network_interface_card }}"
+      image:
+        offer: CentOS
+        publisher: OpenLogic
+        sku: '7.5'
+        version: latest
