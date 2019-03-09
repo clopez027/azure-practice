@@ -3,12 +3,12 @@
   hosts: localhost
   connection: local
   vars:
-    name_resource_group: test-rg
-    name_virtual_network: test-vn
-    name_subnet: test-sn
-    name_public_ip: test-pip
-    name_network_security_group: test-nsg
-    name_network_interface_card: test-nic
+    name_resource_group: dev-rg
+    name_virtual_network: dev-vnet
+    name_network_security_group: dev-nsg
+    name_network_interface_card: dev-nic-01
+    name_public_ip: dev-pip-01
+#    name_subnet: dev-sn
   tasks:
   - name: Create resource group
     azure_rm_resourcegroup:
@@ -21,12 +21,12 @@
       name: "{{ name_virtual_network }}"
       address_prefixes: "10.0.0.0/16"
 
-  - name: Add subnet
-    azure_rm_subnet:
-      resource_group: "{{ name_resource_group }}"
-      name: "{{ name_subnet }}"
-      address_prefix: "10.0.1.0/24"
-      virtual_network: "{{ name_virtual_network }}"
+#  - name: Add subnet
+#    azure_rm_subnet:
+#      resource_group: "{{ name_resource_group }}"
+#      name: "{{ name_subnet }}"
+#      address_prefix: "10.0.1.0/24"
+#      virtual_network: "{{ name_virtual_network }}"
 
   - name: Create public IP address
     azure_rm_publicipaddress:
@@ -47,11 +47,12 @@
           direction: Inbound
 
 # throws a [DEPRECATION WARNING] review for future proofing
+
   - name: Create virtual network inteface card
     azure_rm_networkinterface:
       resource_group: "{{ name_resource_group }}"
       name: "{{ name_network_interface_card }}"
       virtual_network: "{{ name_virtual_network }}"
-      subnet: "{{ name_subnet }}"
+#      subnet: "{{ name_subnet }}"
       public_ip_name: "{{ name_public_ip }}"
       security_group: "{{ name_network_security_group }}"

@@ -5,9 +5,9 @@
   vars:
     user: << username >>
     pub_key: ssh-rsa << public key >>
-    name_resource_group: test-rg
-    name_network_interface_card: test-nic
-    name_virtual_machine: test-vm
+    name_resource_group: dev-rg
+    name_network_interface_card: dev-nic-01
+    name_virtual_machine: dev-vm-01
   tasks:
   - name: create vm (CentOS)
     azure_rm_virtualmachine:

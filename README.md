@@ -10,7 +10,13 @@ Used to explore Azure
 
 * Create Azure VM (CentOS)
 * Install ansible
+  * sudo yum install ansible
 * Install git
+  * sudo yum install git
+* Configure git
+  * git config --global user.name "<First> <Last>"
+  * git config --global user.email "<email address>"
+  * git config --list
 
 ## To do
 
@@ -25,3 +31,12 @@ Used to explore Azure
 * ansible.cfg
   * set inventory = hosts
   * run commands from the dir with the .cfg (or set env)
+* check versions
+  * git --version
+  * python --version
+  * ansible --version
+* Basic Ansible commands
+  * ansible-playbook [playbook.yml] --syntax-check
+  * ansible-playbook [playbook.yml]
+* Basic git commands
+  * git clone https://github.com/ansible/ansbile.git --recursive
