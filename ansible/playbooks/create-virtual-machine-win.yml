@@ -1,5 +1,5 @@
 ---
-- name: Create a virtual machine
+- name: Create a virtual machine - Windows
   hosts: localhost
   connection: local
   vars:
@@ -10,12 +10,13 @@
     name_public_ip: dev-pip-01
     name_network_interface_card: dev-nic-01
     user: << username >>
-    pub_key: ssh-rsa << public key >>
+    key: << password >>
     name_virtual_machine: dev-vm-01
     name_vm_size: Standard_B1s
-    name_image_offer: CentOS
-    name_image_publisher: OpenLogic
-    name_image_sku: '7.5'
+    name_os_type: Windows
+    name_image_offer: WindowsServer
+    name_image_publisher: MicrosoftWindowsServer
+    name_image_sku: 2016-Datacenter
     name_image_version: latest
   
   tasks:
@@ -42,11 +43,9 @@
       name: "{{ name_virtual_machine }}"
       vm_size: "{{ name_vm_size }}"
       admin_username: "{{ user }}"
-      ssh_password_enabled: false
-      ssh_public_keys:
-        - path: "/home/{{ user }}/.ssh/authorized_keys"
-          key_data: "{{ pub_key }}"
+      admin_password: "{{ key }}"
       network_interfaces: "{{ name_network_interface_card }}"
+      os_type: "{{ name_os_type }}"
       image:
         offer: "{{ name_image_offer }}"
         publisher: "{{ name_image_publisher }}"
