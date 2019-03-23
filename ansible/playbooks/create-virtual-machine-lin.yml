@@ -3,22 +3,30 @@
   hosts: localhost
   connection: local
   vars:
+    count: '05'
     name_resource_group: dev-rg
     name_virtual_network: dev-vnet
     name_subnet: dev-sn
     name_network_security_group: dev-nsg
-    name_public_ip: dev-pip-01
-    name_network_interface_card: dev-nic-01
+    name_virtual_machine: devvm{{ count }}
+    name_public_ip: "{{ name_virtual_machine }}"
+    name_network_interface_card: "{{ name_virtual_machine }}"
+    name_storage_account: "{{ name_virtual_machine }}"
     user: << username >>
     key: ssh-rsa << public key >>
-    name_virtual_machine: dev-vm-01
     name_vm_size: Standard_B1s
-    name_image_offer: CentOS
-    name_image_publisher: OpenLogic
-    name_image_sku: '7.5'
+    name_image_offer: RHEL
+    name_image_publisher: RedHat
+    name_image_sku: 7-RAW
     name_image_version: latest
   
   tasks:
+  - name: Create storage account
+    azure_rm_storageaccount:
+      name: "{{ name_storage_account }}"
+      resource_group: "{{ name_resource_group }}"
+      account_type: Standard_LRS
+
   - name: Create public IP address
     azure_rm_publicipaddress:
       resource_group: "{{ name_resource_group }}"
@@ -46,6 +54,7 @@
       ssh_public_keys:
         - path: "/home/{{ user }}/.ssh/authorized_keys"
           key_data: "{{ key }}"
+      storage_account_name: "{{ name_storage_account }}"
       network_interfaces: "{{ name_network_interface_card }}"
       image:
         offer: "{{ name_image_offer }}"

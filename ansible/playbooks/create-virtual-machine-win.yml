@@ -3,15 +3,17 @@
   hosts: localhost
   connection: local
   vars:
+    count: '04'
     name_resource_group: dev-rg
     name_virtual_network: dev-vnet
     name_subnet: dev-sn
     name_network_security_group: dev-nsg
-    name_public_ip: dev-pip-01
-    name_network_interface_card: dev-nic-01
+    name_virtual_machine: devvm{{ count }}
+    name_public_ip: "{{ name_virtual_machine }}"
+    name_network_interface_card: "{{ name_virtual_machine }}"
+    name_storage_account: "{{ name_virtual_machine }}"
     user: << username >>
     key: << password >>
-    name_virtual_machine: dev-vm-01
     name_vm_size: Standard_B1s
     name_os_type: Windows
     name_image_offer: WindowsServer
@@ -20,6 +22,12 @@
     name_image_version: latest
   
   tasks:
+  - name: Create storage account
+    azure_rm_storageaccount:
+      name: "{{ name_storage_account }}"
+      resource_group: "{{ name_resource_group }}"
+      account_type: Standard_LRS
+
   - name: Create public IP address
     azure_rm_publicipaddress:
       resource_group: "{{ name_resource_group }}"
@@ -44,6 +52,7 @@
       vm_size: "{{ name_vm_size }}"
       admin_username: "{{ user }}"
       admin_password: "{{ key }}"
+      storage_account_name: "{{ name_storage_account }}"
       network_interfaces: "{{ name_network_interface_card }}"
       os_type: "{{ name_os_type }}"
       image:
