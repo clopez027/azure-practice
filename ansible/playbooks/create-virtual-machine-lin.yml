@@ -1,0 +1,63 @@
+---
+- name: Create a virtual machine - Linux
+  hosts: localhost
+  connection: local
+  vars:
+    count: '05'
+    name_resource_group: dev-rg
+    name_virtual_network: dev-vnet
+    name_subnet: dev-sn
+    name_network_security_group: dev-nsg
+    name_virtual_machine: devvm{{ count }}
+    name_public_ip: "{{ name_virtual_machine }}"
+    name_network_interface_card: "{{ name_virtual_machine }}"
+    name_storage_account: "{{ name_virtual_machine }}"
+    user: << username >>
+    key: ssh-rsa << public key >>
+    name_vm_size: Standard_B1s
+    name_image_offer: RHEL
+    name_image_publisher: RedHat
+    name_image_sku: 7-RAW
+    name_image_version: latest
+  
+  tasks:
+  - name: Create storage account
+    azure_rm_storageaccount:
+      name: "{{ name_storage_account }}"
+      resource_group: "{{ name_resource_group }}"
+      account_type: Standard_LRS
+
+  - name: Create public IP address
+    azure_rm_publicipaddress:
+      resource_group: "{{ name_resource_group }}"
+      allocation_method: Static
+      name: "{{ name_public_ip }}"
+
+# throws a [DEPRECATION WARNING] review for future proofing
+
+  - name: Create virtual network inteface card
+    azure_rm_networkinterface:
+      resource_group: "{{ name_resource_group }}"
+      name: "{{ name_network_interface_card }}"
+      virtual_network: "{{ name_virtual_network }}"
+      subnet: "{{ name_subnet }}"
+      public_ip_name: "{{ name_public_ip }}"
+      security_group: "{{ name_network_security_group }}"
+
+  - name: Create virtual machine
+    azure_rm_virtualmachine:
+      resource_group: "{{ name_resource_group }}"
+      name: "{{ name_virtual_machine }}"
+      vm_size: "{{ name_vm_size }}"
+      admin_username: "{{ user }}"
+      ssh_password_enabled: false
+      ssh_public_keys:
+        - path: "/home/{{ user }}/.ssh/authorized_keys"
+          key_data: "{{ key }}"
+      storage_account_name: "{{ name_storage_account }}"
+      network_interfaces: "{{ name_network_interface_card }}"
+      image:
+        offer: "{{ name_image_offer }}"
+        publisher: "{{ name_image_publisher }}"
+        sku: "{{ name_image_sku }}"
+        version: "{{ name_image_version }}"
