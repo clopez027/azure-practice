@@ -1,0 +1,40 @@
+---
+- name: Set a resource group
+  hosts: localhost
+  connection: local
+  vars:
+    name_resource_group: dev-rg
+    name_virtual_network: dev-vnet
+    name_subnet: dev-sn
+    name_network_security_group: dev-nsg
+    
+  tasks:
+  - name: Create resource group
+    azure_rm_resourcegroup:
+      name: "{{ name_resource_group }}"
+      location: centralus
+
+  - name: Create virtual network
+    azure_rm_virtualnetwork:
+      resource_group: "{{ name_resource_group }}"
+      name: "{{ name_virtual_network }}"
+      address_prefixes: "10.0.0.0/16"
+
+  - name: Add subnet
+    azure_rm_subnet:
+      resource_group: "{{ name_resource_group }}"
+      name: "{{ name_subnet }}"
+      address_prefix: "10.0.1.0/24"
+      virtual_network: "{{ name_virtual_network }}"
+
+  - name: Create Network Security Group that allows SSH
+    azure_rm_securitygroup:
+      resource_group: "{{ name_resource_group }}"
+      name: "{{ name_network_security_group }}"
+      rules:
+        - name: SSH
+          protocol: Tcp
+          destination_port_range: 22
+          access: Allow
+          priority: 1001
+          direction: Inbound

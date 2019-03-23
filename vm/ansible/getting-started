@@ -1,6 +1,0 @@
-basic command(s)
-ansible --version
-
-ansible-playbook resourcegroup.yaml --syntax-check
-
-ansible-playbook resourcegroup.yaml
