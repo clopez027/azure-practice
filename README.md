@@ -8,7 +8,7 @@ Used to explore Azure
 
 ## Steps
 
-* Create Azure VM (CentOS)
+* Create Azure VM (RHEL)
 * Install ansible
   * sudo yum install ansible
 * Install git
@@ -21,7 +21,15 @@ Used to explore Azure
 ## To do
 
 * clean up ssh plan
-* clean up provision plans (add variables)
+* create user account
+
+## Accounts
+* sudo -i
+* /etc/ssh/sshd_config --> PasswordAuthentication yes
+* useradd -m -s /bin/bash <username>
+* passwd <username>
+* usermdo -aG sudo <username>
+* restart
 
 ## Notes
 
