@@ -48,3 +48,8 @@ Used to explore Azure
   * ansible-playbook [playbook.yml]
 * Basic git commands
   * git clone https://github.com/ansible/ansbile.git --recursive
+
+
+## Log on
+* Azure - cd to .ssh and use user@ipaddress -i filename
+* PC - cd to .ssh\tmp and use user@ipaddress -i filename
