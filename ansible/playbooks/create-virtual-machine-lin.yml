@@ -14,10 +14,10 @@
     name_storage_account: "{{ name_virtual_machine }}"
     user: << username >>
     key: ssh-rsa << public key >>
-    name_vm_size: Standard_B1s
-    name_image_offer: RHEL
-    name_image_publisher: RedHat
-    name_image_sku: 7-RAW
+    name_vm_size: Standard_B2s
+    name_image_offer: UbuntuServer
+    name_image_publisher: Canonical
+    name_image_sku: 18.04-LTS
     name_image_version: latest
   
   tasks:
