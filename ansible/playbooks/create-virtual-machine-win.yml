@@ -14,7 +14,7 @@
     name_storage_account: "{{ name_virtual_machine }}"
     user: << username >>
     key: << password >>
-    name_vm_size: Standard_B1s
+    name_vm_size: Standard_B2s
     name_os_type: Windows
     name_image_offer: WindowsServer
     name_image_publisher: MicrosoftWindowsServer
